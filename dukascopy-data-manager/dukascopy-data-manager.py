@@ -46,7 +46,7 @@ def get_paths(mode: str = "full"):
 def download(assets:Annotated[list[str], typer.Argument(help="Give a list of assets to download. Eg. EURUSD AUDUSD")],
              start:Annotated[str, typer.Argument(help="Start date to download in YYYY-MM-DD format. Eg. 2024-01-08")],
              end:Annotated[str, typer.Option(help="End date to download in YYYY-MM-DD format. If not provided, will download until current date Eg. 2024-01-08")]="",
-             concurrent:Annotated[int, typer.Option(help="Max number of concurrent downloads (defaults to max number of threads + 4 or 32 (which ever is less)) (Sometimes using too high of a number results in missing files)")]=0,
+             concurrent:Annotated[int, typer.Option(help="Max number of concurrent downloads (defaults to 3)")]=3,
              force:Annotated[bool, typer.Option(help="Redownload files. By default, without this flag, files that already exist will be skipped")]=False,
              mode:Annotated[str, typer.Option(help="Mode: 'recent' or 'full' - determines which directories to use")]="full"):
     """
@@ -62,9 +62,7 @@ def download(assets:Annotated[list[str], typer.Argument(help="Give a list of ass
         end_date = end.split("-")
         end_date = datetime(int(end_date[0]), int(end_date[1]), int(end_date[2]))
 
-    processes = None
-    if concurrent > 0:
-        processes = concurrent
+    processes = concurrent
 
     delta = timedelta(hours=1)
     for asset in assets:
@@ -322,7 +320,7 @@ def list_command(mode:Annotated[str, typer.Option(help="Mode: 'recent' or 'full'
 @app.command()
 def update(assets:Annotated[list[str], typer.Argument(help="Give a list of assets to update. Use 'all' for all downloaded assets. Eg. EURUSD AUDUSD. Check update --help for more info")],
            start:Annotated[str, typer.Option(help="Start date to update from in YYYY-MM-DD format. This overrides the default which uses the latest downloaded file as the start date. Eg. 2024-01-08")]="",
-           concurrent:Annotated[int, typer.Option(help="Max number of concurrent downloads (defaults to max number of threads + 4 or 32 (which ever is less)) (Sometimes using too high of a number results in missing files)")]=0,
+           concurrent:Annotated[int, typer.Option(help="Max number of concurrent downloads (defaults to 3)")]=3,
            force:Annotated[bool, typer.Option(help="Redownload files. By default, without this flag, files that already exist will be skipped. This can be used with --start to force redownload.")]=False,
            mode:Annotated[str, typer.Option(help="Mode: 'recent' or 'full' - determines which directories to use")]="full"):
     """
