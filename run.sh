@@ -32,15 +32,15 @@ if [ "$1" == "download" ] && [ "$REVERSE_SYMBOLS" = true ]; then
     # Reverse the symbols for download
     tac "$SYMBOLS_FILE" | while read -r symbol; do
         echo "Processing symbol: $symbol"
-        python "${PROJECT_DIR}/dukascopy-data-manager/dukascopy-data-manager.py" $1 "$symbol" $START_DATE --concurrent=5 --mode=$MODE
+        python "${PROJECT_DIR}/dukascopy-data-manager/dukascopy-data-manager.py" $1 "$symbol" $START_DATE --concurrent=3 --mode=$MODE
     done
 else
     # Normal processing (original order)
     while read -r symbol; do
         echo "Processing symbol: $symbol"
-        # Check if the first argument is 'download' and include --concurrent=10 if true
+        # Check if the first argument is 'download' and include concurrent workers if true
         if [ "$1" == "download" ]; then
-            python "${PROJECT_DIR}/dukascopy-data-manager/dukascopy-data-manager.py" $1 "$symbol" $START_DATE --concurrent=5 --mode=$MODE
+            python "${PROJECT_DIR}/dukascopy-data-manager/dukascopy-data-manager.py" $1 "$symbol" $START_DATE --concurrent=3 --mode=$MODE
         else
             # Check for --only-absent flag and pass it to export command if present
             echo "Debug: Checking for --only-absent in: $*"
