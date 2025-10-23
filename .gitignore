@@ -1,0 +1,33 @@
+# Virtual environments
+myenv/
+myenv_old/
+venv/
+env/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environment files
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data directories (these are typically large and stored elsewhere)
+# Uncomment if you don't want to track data files
+# data/
+# *.csv
+# *.bi5
